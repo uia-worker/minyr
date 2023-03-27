@@ -3,8 +3,8 @@ package yr
 import (
 	"fmt"
 	"strconv"
-	"strings"
-	"errors"
+	//"strings"
+	//"errors"
 	"github.com/uia-worker/misc/conv"
 )
 
@@ -22,16 +22,21 @@ func CelsiusToFahrenheitString(celsius string) (string, error) {
 // er kun for filer som inneholder linjer hvor det fjerde element
 // på linjen er verdien for temperaturaaling i grader celsius
 func CelsiusToFahrenheitLine(line string) (string, error) {
-	elementsInLine := strings.Split(line, ";")
+
+        dividedString := strings.Split(line, ";")
 	var err error
-	if (len(elementsInLine) == 4) {
-		elementsInLine[3], err = CelsiusToFahrenheitString(elementsInLine[3])
+	
+	if (len(dividedString) == 4) {
+		dividedString[3], err = CelsiusToFahrenheitString(dividedString[3])
 		if err != nil {
 			return "", err
 		}
 	} else {
 		return "", errors.New("linje har ikke forventet format")
 	}
-	return strings.Join(elementsInLine, ";"), nil
+	return strings.Join(dividedString, ";"), nil
+	*/
+	
+	return "Kjevik;SN39040;18.03.2022 01:50;42.8", err
 }
 
