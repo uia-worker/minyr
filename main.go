@@ -1,53 +1,63 @@
 package main
 
 import (
-	"encoding/csv"
+	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+	"strings"
+
+	"github.com/Lordkissa97/minyr/yr"
 )
 
 func main() {
-	// Åpner inputfilen og leser inn data
-	file, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	reader := csv.NewReader(file)
-	data, err := reader.ReadAll()
-	if err != nil {
-		panic(err)
+	// Venter på at brukeren skal skrive inn "minyr"
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Skriv inn 'minyr' for å starte programmet: ")
+	text, _ := reader.ReadString('\n')
+	if strings.ToLower(strings.TrimSpace(text)) != "minyr" {
+		fmt.Println("Ugyldig verdi.")
+		return
 	}
 
-	// Konverterer temperaturene fra Celsius til Fahrenheit og lagrer resultatene i en ny liste
-	var convertedData [][]string
-	for i, row := range data {
-		if i == 0 { // overskriftsraden skal ikke endres
-			convertedData = append(convertedData, row)
-			continue
+	// Viser brukeren en meny med valg
+	fmt.Println("Valg:")
+	fmt.Println("  - 'convert' for å konvertere tempraturen fra Celsius til Fahrenheit")
+	fmt.Println("  - 'average' for å begregne gjennomsnitt tempratur for perioden")
+	fmt.Println("Skriv 'q' eller 'quit' for å avbryte.")
+	for {
+		fmt.Print("Velg: ")
+		option, _ := reader.ReadString('\n')
+		option = strings.ToLower(strings.TrimSpace(option))
+
+		if option == "convert" {
+			err := yr.Convert()
+			if err != nil {
+				fmt.Println("Feil med begregning av gjennomsnitt tempratur:", err)
+				return
+			}
+			fmt.Println("Gjennomsnitt begregning fullført.")
+			break
 		}
-		celsius, err := strconv.ParseFloat(row[1], 64)
-		if err != nil {
-			panic(err)
+
+		if option == "average" {
+			fmt.Print("Velg enhet for begregning ('c' for Celsius eller 'f' for Fahrenheit): ")
+			unit, _ := reader.ReadString('\n')
+			unit = strings.ToLower(strings.TrimSpace(unit))
+
+			avg, err := yr.Average(unit)
+			if err != nil {
+				fmt.Println("Feil under kalkulasjon:", err)
+				return
+			}
+			fmt.Printf("Gjennomsnittlig tempratur: %.2f %s\n", avg, unit)
+			break
 		}
-		fahrenheit := (celsius * 9 / 5) + 32
-		convertedRow := []string{row[0], fmt.Sprintf("%.1f", fahrenheit)}
-		convertedData = append(convertedData, convertedRow)
-	}
 
-	// Skriver resultatene til outputfilen
-	outputFile, err := os.Create("kjevik-temp-fahr-20220318-20230318.csv")
-	if err != nil {
-		panic(err)
-	}
-	defer outputFile.Close()
-	writer := csv.NewWriter(outputFile)
-	if err := writer.WriteAll(convertedData); err != nil {
-		panic(err)
-	}
+		if option == "q" || option == "quit" {
+			fmt.Println("Avbryt program.")
+			return
+		}
 
-	// Skriver en avslutningsmelding til konsollen
-	fmt.Println("Konvertering fullført og lagret i kjevik-temp-fahr-20220318-20230318.csv")
-	fmt.Println("Data er basert på gyldig data (per 18.03.2023) (CC BY 4.0) fra Meteorologisk institutt (MET);endringen er gjort av STUDENTENS_NAVN")
+		fmt.Println("Ugylid verdi, prøv igjen.")
+	}
 }
