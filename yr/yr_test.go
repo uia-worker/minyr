@@ -144,7 +144,7 @@ func TestConversion2(t *testing.T) {
 /*
 gitt "Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);;;" ønsker å få (want)
 "Data er basert på gyldig data (per 18.03.2023) (CC BY 4.0) fra Meteorologisk institutt (MET);endringen er gjort av
-STUDENTENS_NAVN", hvor STUDENTENS_NAVN er navn på studenten som leverer besvarelsen
+Christian Eieland Ålykkja", hvor Christian er navn på studenten som leverer besvarelsen
 */
 func TestLastLineOfFile(t *testing.T) {
 	file, err := os.Open("kjevik-temp-fahr-20220318-20230318.csv")
