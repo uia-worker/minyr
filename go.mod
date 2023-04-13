@@ -1,4 +1,4 @@
-module github.com/uia-worker/minyr
+module github.com/Lordkissa97/minyr
 
 go 1.18
 
