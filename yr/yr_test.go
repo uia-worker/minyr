@@ -164,7 +164,7 @@ func TestLastLineOfFile(t *testing.T) {
 	}
 
 	// Sjekker at den siste linjen inneholder den forventede teksten
-	expectedText := "Data er basert paa gyldig data (per 18.03.2023) (CC BY 4.0) fra Meteorologisk institutt (MET); endringen er gjort av Andreas Mørkesdal"
+	expectedText := "Data er basert paa gyldig data (per 18.03.2023) (CC BY 4.0) fra Meteorologisk institutt (MET); endringen er gjort av Christian Eieland Ålykkja"
 	if !strings.Contains(lastLine, expectedText) {
 		t.Errorf("Siste linje i filen matcher ikke forventet resultat. fikk: %q, forventet tekst: %q", lastLine, expectedText)
 	}
