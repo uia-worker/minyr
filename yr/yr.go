@@ -154,7 +154,7 @@ func Average(unit string) (float64, error) {
 			return 0, err
 		}
 
-		if i < 1 || i > 1675 {
+		if i < 2 || i > 16755 {
 			// hopper over linjer utenfor rangen
 			continue
 		}
@@ -170,7 +170,6 @@ func Average(unit string) (float64, error) {
 
 		total += temp
 		count++
-
 	}
 
 	if count == 0 {
