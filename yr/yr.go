@@ -171,7 +171,6 @@ func Average(unit string) (float64, error) {
 		total += temp
 		count++
 
-		fmt.Println(temp)
 	}
 
 	if count == 0 {
